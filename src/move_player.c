@@ -7,11 +7,30 @@
 
 #include "my_sokoban.h"
 
+static int move_box(map_t *map, int index_box, vector_t move)
+{
+    vector_t new_pos;
+
+    if (index_box < 0)
+        return (1);
+    new_pos.x = map->boxes[index_box].x + move.x;
+    new_pos.y = map->boxes[index_box].y + move.y;
+    if (map->str[new_pos.y][new_pos.x] == '#' || char_is_box(map, new_pos) >= 0)
+        return (0);
+    map->boxes[index_box] = new_pos;
+    return (1);
+}
+
 static void move_player_coords(map_t *map, vector_t move)
 {
     vector_t new_pos = {map->player.x + move.x, map->player.y + move.y};
+    int index_box;
 
     if (map->str[new_pos.y][new_pos.x] == '#')
+        return;
+    index_box = char_is_box(map, new_pos);
+    mvprintw(0, 0, "%d", index_box);
+    if (!move_box(map, index_box, move))
         return;
     map->player = new_pos;
 }

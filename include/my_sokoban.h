@@ -42,6 +42,7 @@ int my_sokoban(map_t *map);
 int valid_map(map_t *map);
 int find_player(map_t *map);
 int find_boxes(map_t *map);
+int char_is_box(map_t *map, vector_t pos);
 void move_player(map_t *map, int *direction);
 
 #endif
