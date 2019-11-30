@@ -14,13 +14,12 @@ static int search_boxes(map_t *map, int fill_tab)
     int y = 0;
 
     while (y < map->nb_lines) {
-        if (map->str[y][x] == 'X') {
-            if (fill_tab) {
-                (map->boxes[count]).x = x;
-                (map->boxes[count]).y = y;
-                map->str[y][x] = ' ';
-            }
+        if (map->str[y][x] == 'X')
             count += 1;
+        if (map->str[y][x] == 'X' && fill_tab) {
+            (map->boxes[count - 1]).x = x;
+            (map->boxes[count - 1]).y = y;
+            map->str[y][x] = ' ';
         }
         x += 1;
         if (x == map->nb_columns[y]) {
@@ -36,23 +35,9 @@ int find_boxes(map_t *map)
     int count = search_boxes(map, 0);
 
     map->nb_boxes = count;
-    if (count == 0)
-        return (0);
     map->boxes = malloc(sizeof(vector_t) * count);
-    if (map->boxes == NULL)
+    if (count == 0 || map->boxes == NULL)
         return (0);
     search_boxes(map, 1);
     return (1);
-}
-
-int char_is_box(map_t *map, vector_t pos)
-{
-    int i = 0;
-
-    while (i < map->nb_boxes) {
-        if (map->boxes[i].x == pos.x && map->boxes[i].y == pos.y)
-            return (i);
-        i += 1;
-    }
-    return (-1);
 }

@@ -7,46 +7,33 @@
 
 #include "my_sokoban.h"
 
-static int count_lines(char *str, int size)
+static int count_lines(char const *buffer)
 {
     int i = 0;
     int nb_lines = 0;
 
-    while (i < size) {
-        if (str[i] == '\n')
+    if (buffer == NULL)
+        return (-1);
+    while (buffer[i] != '\0') {
+        if (buffer[i] == '\n')
             nb_lines += 1;
         i += 1;
     }
-    free(str);
     return (nb_lines);
-}
-
-static int get_number_of_lines(char const *filepath)
-{
-    int fd = open(filepath, O_RDONLY);
-    struct stat statbuf;
-    char *str = NULL;
-    int size;
-
-    if (fstat(fd, &statbuf) < 0)
-        return (-84);
-    str = malloc(sizeof(char) * statbuf.st_size);
-    size = read(fd, str, statbuf.st_size);
-    close(fd);
-    return (count_lines(str, size));
 }
 
 static map_t *init_map(int nb_lines)
 {
     map_t *map;
 
-    if (nb_lines == -84)
+    if (nb_lines < 0)
         return (NULL);
     map = malloc(sizeof(map_t));
     if (map == NULL)
         return (NULL);
     map->nb_lines = nb_lines;
     map->nb_columns = malloc(sizeof(int) * nb_lines);
+    map->boxes = NULL;
     map->max_nb_columns = -1;
     map->str = malloc(sizeof(char *) * nb_lines);
     if (map->nb_columns == NULL || map->str == NULL)
@@ -54,36 +41,30 @@ static map_t *init_map(int nb_lines)
     return (map);
 }
 
-static void fill_map(map_t *map, FILE *stream)
+static void fill_map(map_t *map, char const *buffer)
 {
     int i = 0;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t nread = 0;
+    int nb_columns = 0;
 
     while (i < map->nb_lines) {
-        nread = getline(&line, &len, stream);
-        (map->str)[i] = my_strndup(line, nread - 1);
-        (map->nb_columns)[i] = nread;
-        if (nread > map->max_nb_columns)
-            map->max_nb_columns = nread;
+        nb_columns = my_find_char(buffer, '\n');
+        (map->str)[i] = my_strndup(buffer, nb_columns);
+        (map->nb_columns)[i] = nb_columns;
+        if (nb_columns > map->max_nb_columns)
+            map->max_nb_columns = nb_columns;
         i += 1;
+        buffer = &buffer[nb_columns + 1];
     }
-    free(line);
 }
 
-map_t *get_map(char const *filepath)
+map_t *get_map(char const *buffer)
 {
-    map_t *map;
-    int nb_lines = get_number_of_lines(filepath);
-    FILE *stream;
+    map_t *map = init_map(count_lines(buffer));
 
-    map = init_map(nb_lines);
-    stream = fopen(filepath, "r");
-    if (stream == NULL || map == NULL)
+    if (map == NULL)
         return (NULL);
-    fill_map(map, stream);
-    fclose(stream);
+    fill_map(map, buffer);
+    map->buffer = buffer;
     if (!valid_map(map))
         return (NULL);
     return (map);

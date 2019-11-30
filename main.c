@@ -19,39 +19,35 @@ static int print_help(void)
     return (0);
 }
 
-static void init_curs_module(void)
+static char *open_map(char const *filepath)
 {
-    initscr();
-    noecho();
-    cbreak();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-    timeout(500);
-}
+    int fd = open(filepath, O_RDONLY);
+    struct stat statbuf;
+    char *str;
+    int size;
 
-static void stop_curs_module(void)
-{
-    clrtoeol();
-    refresh();
-    nocbreak();
-    echo();
-    endwin();
+    if (fstat(fd, &statbuf) < 0)
+        return (NULL);
+    str = malloc(sizeof(char) * (statbuf.st_size + 1));
+    if (str != NULL) {
+        size = read(fd, str, statbuf.st_size);
+        str[size] = 0;
+    }
+    close(fd);
+    return (str);
 }
 
 int main(int ac, char **av)
 {
-    map_t *map;
+    char *buffer;
     int output;
 
     if (ac != 2)
         return (84);
     if (my_strcmp(av[1], "-h") == 0)
         return (print_help());
-    map = get_map(av[1]);
-    if (map == NULL)
-        return (84);
-    init_curs_module();
-    output = my_sokoban(map);
-    stop_curs_module();
+    buffer = open_map(av[1]);
+    output = my_sokoban(get_map(buffer));
+    free(buffer);
     return (output);
 }

@@ -16,6 +16,7 @@ SRC_TEST	=	src/get_map.c			\
 				src/valid_characters.c	\
 				src/find_player.c		\
 				src/find_boxes.c		\
+				src/char_is_box.c		\
 				src/find_hole.c			\
 				src/move_player.c
 
@@ -40,7 +41,7 @@ tests_run:	lib
 	@find . -name "*.gc*" -delete
 	gcc -o unit_tests $(SRC_TEST) tests/*.c -L./lib -lmy -lncurses $(CFLAGS) --coverage -lcriterion
 	./unit_tests
-	rm -f test*.gc*
+	rm -f unit_tests test*.gc*
 	mkdir -p coverage
 	mv *.gc* coverage/
 

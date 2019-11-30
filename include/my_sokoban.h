@@ -16,6 +16,9 @@
 #include <stdio.h>
 #include "my.h"
 
+void _nc_freeall(void);
+void _nc_free_and_exit(int);
+
 typedef struct vector
 {
     int x;
@@ -24,6 +27,7 @@ typedef struct vector
 
 typedef struct map
 {
+    char const *buffer;
     char **str;
     vector_t player;
     vector_t *boxes;
@@ -33,7 +37,7 @@ typedef struct map
     int max_nb_columns;
 } map_t;
 
-map_t *get_map(char const *filepath);
+map_t *get_map(char const *buffer);
 void draw_map(map_t *map);
 void free_map(map_t *map);
 long free_map_and_returns(map_t *map, long status);
