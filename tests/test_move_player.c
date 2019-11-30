@@ -15,6 +15,7 @@ static void action_on_player(map_t *map)
     int down[4] = {0, 1, 0, 0};
     int left[4] = {0, 0, 1, 0};
     int right[4] = {0, 0, 0, 1};
+    int i = 0;
 
     move_player(map, left);
     move_player(map, down);
@@ -22,16 +23,10 @@ static void action_on_player(map_t *map)
     move_player(map, down);
     move_player(map, left);
     move_player(map, left);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
-    move_player(map, right);
+    while (i < 10) {
+        move_player(map, right);
+        i += 1;
+    }
 }
 
 Test(move_player, move_the_player_on_the_map)
