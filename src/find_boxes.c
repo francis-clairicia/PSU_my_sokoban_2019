@@ -7,15 +7,21 @@
 
 #include "my_sokoban.h"
 
-static int count_boxes(map_t *map)
+static int search_boxes(map_t *map, int fill_tab)
 {
     int count = 0;
     int x = 0;
     int y = 0;
 
     while (y < map->nb_lines) {
-        if (map->str[y][x] == 'X')
+        if (map->str[y][x] == 'X') {
+            if (fill_tab) {
+                (map->boxes[count]).x = x;
+                (map->boxes[count]).y = y;
+                map->str[y][x] = ' ';
+            }
             count += 1;
+        }
         x += 1;
         if (x == map->nb_columns[y]) {
             x = 0;
@@ -25,38 +31,17 @@ static int count_boxes(map_t *map)
     return (count);
 }
 
-static void fill_boxes(map_t *map)
-{
-    int i = 0;
-    int x = 0;
-    int y = 0;
-
-    while (y < map->nb_lines) {
-        if (map->str[y][x] == 'X') {
-            (map->boxes[i]).x = x;
-            (map->boxes[i]).y = y;
-            map->str[y][x] = ' ';
-            i += 1;
-        }
-        x += 1;
-        if (x == map->nb_columns[y]) {
-            x = 0;
-            y += 1;
-        }
-    }
-}
-
 int find_boxes(map_t *map)
 {
-    int count = count_boxes(map);
+    int count = search_boxes(map, 0);
 
+    map->nb_boxes = count;
     if (count == 0)
         return (0);
-    map->nb_boxes = count;
     map->boxes = malloc(sizeof(vector_t) * count);
     if (map->boxes == NULL)
         return (0);
-    fill_boxes(map);
+    search_boxes(map, 1);
     return (1);
 }
 

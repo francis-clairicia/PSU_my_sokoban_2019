@@ -20,8 +20,6 @@ int my_sokoban(map_t *map)
     int key = 0;
     int direction[4];
 
-    if (!find_player(map) || !find_boxes(map))
-        return (free_map_and_returns(map, 84));
     while (key != ' ') {
         draw_map(map);
         key = getch();

@@ -24,13 +24,10 @@ static int move_box(map_t *map, int index_box, vector_t move)
 static void move_player_coords(map_t *map, vector_t move)
 {
     vector_t new_pos = {map->player.x + move.x, map->player.y + move.y};
-    int index_box;
 
     if (map->str[new_pos.y][new_pos.x] == '#')
         return;
-    index_box = char_is_box(map, new_pos);
-    mvprintw(0, 0, "%d", index_box);
-    if (!move_box(map, index_box, move))
+    if (!move_box(map, char_is_box(map, new_pos), move))
         return;
     map->player = new_pos;
 }
@@ -38,8 +35,7 @@ static void move_player_coords(map_t *map, vector_t move)
 void move_player(map_t *map, int *direction)
 {
     int i = 0;
-    vector_t move = {0, 0};
-    vector_t move_pos[] = {
+    vector_t move[4] = {
         {0, -1},
         {0, 1},
         {-1, 0},
@@ -48,8 +44,7 @@ void move_player(map_t *map, int *direction)
 
     while (i < 4) {
         if (direction[i] == 1)
-            move = move_pos[i];
+            move_player_coords(map, move[i]);
         i += 1;
     }
-    move_player_coords(map, move);
 }

@@ -85,6 +85,6 @@ map_t *get_map(char const *filepath)
     fill_map(map, stream);
     fclose(stream);
     if (!valid_map(map))
-        return ((void *)free_map_and_returns(map, 0));
+        return (NULL);
     return (map);
 }

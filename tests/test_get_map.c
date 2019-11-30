@@ -10,7 +10,6 @@
 
 Test(get_map, read_the_map_file)
 {
-    char filepath[] = "tests/map.txt";
     char *map_expected[] = {
         "##############",
         "#            #",
@@ -19,16 +18,15 @@ Test(get_map, read_the_map_file)
         "#    ###  ####",
         "#            #",
         "#OX        XO#",
-        "##############"
-    };
+        "##############" };
     int nb_columns_expected[] = {15, 15, 15, 15, 15, 15, 15, 15};
     int i = 0;
-    map_t *map = get_map(filepath);
+    map_t *map = get_map("tests/map.txt");
 
     cr_expect_eq(map->nb_lines, 8);
     cr_expect_eq(map->max_nb_columns, 15);
     while (i < map->nb_lines) {
-        cr_expect_arr_eq_cmp((map->str)[i], map_expected[i], 1, my_strcmp);
+        cr_expect_str_eq((map->str)[i], map_expected[i]);
         i += 1;
     }
     cr_expect_arr_eq(map->nb_columns, nb_columns_expected, 8);

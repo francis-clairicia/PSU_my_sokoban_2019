@@ -26,12 +26,15 @@ static void init_curs_module(void)
     cbreak();
     curs_set(0);
     keypad(stdscr, TRUE);
+    timeout(500);
 }
 
 static void stop_curs_module(void)
 {
     clrtoeol();
     refresh();
+    nocbreak();
+    echo();
     endwin();
 }
 

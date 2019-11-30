@@ -38,11 +38,14 @@ void draw_map(map_t *map);
 void free_map(map_t *map);
 long free_map_and_returns(map_t *map, long status);
 
-int my_sokoban(map_t *map);
 int valid_map(map_t *map);
+int valid_characters(map_t *map);
 int find_player(map_t *map);
 int find_boxes(map_t *map);
+int find_hole(map_t *map);
 int char_is_box(map_t *map, vector_t pos);
+
+int my_sokoban(map_t *map);
 void move_player(map_t *map, int *direction);
 
 #endif

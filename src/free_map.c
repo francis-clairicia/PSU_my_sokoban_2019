@@ -17,6 +17,7 @@ void free_map(map_t *map)
         i += 1;
     }
     free(map->str);
+    free(map->boxes);
     free(map);
 }
 

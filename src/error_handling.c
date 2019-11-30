@@ -7,26 +7,11 @@
 
 #include "my_sokoban.h"
 
-static int line_valid(char const *line)
-{
-    int i = 0;
-
-    while (line[i] != '\0') {
-        if (my_find_char(" PXO#", line[i]) == -1)
-            return (0);
-        i += 1;
-    }
-    return (1);
-}
-
 int valid_map(map_t *map)
 {
-    int i = 0;
-
-    while (i < map->nb_lines) {
-        if (!line_valid((map->str)[i]))
-            return (0);
-        i += 1;
-    }
+    if (!valid_characters(map))
+        return (free_map_and_returns(map, 0));
+    if (!find_player(map) || !find_boxes(map) || !find_hole(map))
+        return (free_map_and_returns(map, 0));
     return (1);
 }

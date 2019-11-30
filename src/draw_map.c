@@ -38,7 +38,6 @@ void draw_map(map_t *map)
     vector_t coords = get_first_char_pos(map);
     int line = 0;
 
-    clear();
     while (line < map->nb_lines) {
         mvprintw(coords.y + line, coords.x, map->str[line]);
         line += 1;

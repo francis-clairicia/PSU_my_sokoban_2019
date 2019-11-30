@@ -13,8 +13,10 @@ SRC_NO_TEST	=	src/my_sokoban.c		\
 SRC_TEST	=	src/get_map.c			\
 				src/free_map.c			\
 				src/error_handling.c	\
+				src/valid_characters.c	\
 				src/find_player.c		\
 				src/find_boxes.c		\
+				src/find_hole.c			\
 				src/move_player.c
 
 SRC			=	$(SRC_NO_TEST) $(SRC_TEST)
