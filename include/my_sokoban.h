@@ -16,21 +16,24 @@
 #include <stdio.h>
 #include "my.h"
 
-void _nc_freeall(void);
-void _nc_free_and_exit(int);
-
 typedef struct vector
 {
     int x;
     int y;
 } vector_t;
 
+typedef struct box
+{
+    vector_t pos;
+    int movable;
+} box_t;
+
 typedef struct map
 {
     char const *buffer;
     char **str;
     vector_t player;
-    vector_t *boxes;
+    box_t *boxes;
     int nb_boxes;
     int nb_lines;
     int *nb_columns;
@@ -51,5 +54,6 @@ int char_is_box(map_t *map, vector_t pos);
 
 int my_sokoban(map_t *map);
 void move_player(map_t *map, int *direction);
+int check_game_status(map_t *map);
 
 #endif

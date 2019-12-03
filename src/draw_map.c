@@ -23,12 +23,12 @@ static void draw_player(vector_t player, int x, int y)
     mvprintw(player.y + y, player.x + x, "P");
 }
 
-static void draw_boxes(vector_t *boxes, int nb_boxes, int x, int y)
+static void draw_boxes(box_t *boxes, int nb_boxes, int x, int y)
 {
     int i = 0;
 
     while (i < nb_boxes) {
-        mvprintw(boxes[i].y + y, boxes[i].x + x, "X");
+        mvprintw(boxes[i].pos.y + y, boxes[i].pos.x + x, "X");
         i += 1;
     }
 }
@@ -38,6 +38,7 @@ void draw_map(map_t *map)
     vector_t coords = get_first_char_pos(map);
     int line = 0;
 
+    clear();
     while (line < map->nb_lines) {
         mvprintw(coords.y + line, coords.x, map->str[line]);
         line += 1;

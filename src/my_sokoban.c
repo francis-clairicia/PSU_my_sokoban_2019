@@ -44,21 +44,20 @@ int my_sokoban(map_t *map)
 {
     int key = 0;
     int direction[4];
-    char key_to_quit = 'q';
+    int output = -1;
 
     if (map == NULL)
         return (84);
     init_curs_module();
-    while (key != key_to_quit) {
+    while (key != 'q' && output < 0) {
         draw_map(map);
         key = getch();
-        if (key != key_to_quit) {
-            get_direction(key, direction);
-            move_player(map, direction);
-        }
+        get_direction(key, direction);
+        move_player(map, direction);
+        output = check_game_status(map);
         if (key == ' ')
             reload_map(&map);
     }
     stop_curs_module();
-    return (free_map_and_returns(map, 0));
+    return (free_map_and_returns(map, (output < 0) ? 0 : output));
 }
