@@ -13,8 +13,8 @@ static vector_t get_first_char_pos(map_t *map)
     int nb_columns = map->max_nb_columns;
     vector_t coords;
 
-    coords.x = (COLS / 2) - (nb_columns / 2);
-    coords.y = (LINES / 2) - (nb_lines / 2);
+    coords.x = (COLS - nb_columns) / 2;
+    coords.y = (LINES - nb_lines) / 2;
     return (coords);
 }
 
@@ -39,6 +39,8 @@ void draw_map(map_t *map)
     int line = 0;
 
     clear();
+    mvprintw(0, 0, "%-3d", coords.x);
+    mvprintw(1, 0, "%-3d", coords.y);
     while (line < map->nb_lines) {
         mvprintw(coords.y + line, coords.x, map->str[line]);
         line += 1;

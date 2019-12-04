@@ -8,8 +8,7 @@
 MAIN		=	main.c
 
 SRC_NO_TEST	=	src/my_sokoban.c		\
-				src/draw_map.c			\
-				src/check_game_status.c
+				src/draw_map.c
 
 SRC_TEST	=	src/get_map.c			\
 				src/free_map.c			\

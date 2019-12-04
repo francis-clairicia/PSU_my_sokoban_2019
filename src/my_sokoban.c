@@ -54,7 +54,6 @@ int my_sokoban(map_t *map)
         key = getch();
         get_direction(key, direction);
         move_player(map, direction);
-        output = check_game_status(map);
         if (key == ' ')
             reload_map(&map);
     }
