@@ -39,8 +39,6 @@ void draw_map(map_t *map)
     int line = 0;
 
     clear();
-    mvprintw(0, 0, "%-3d", coords.x);
-    mvprintw(1, 0, "%-3d", coords.y);
     while (line < map->nb_lines) {
         mvprintw(coords.y + line, coords.x, map->str[line]);
         line += 1;

@@ -19,7 +19,6 @@ static int search_boxes(map_t *map, int fill_tab)
         if (map->str[y][x] == 'X' && fill_tab) {
             (map->boxes[count - 1]).pos.x = x;
             (map->boxes[count - 1]).pos.y = y;
-            (map->boxes[count - 1]).movable = TRUE;
             map->str[y][x] = ' ';
         }
         x += 1;

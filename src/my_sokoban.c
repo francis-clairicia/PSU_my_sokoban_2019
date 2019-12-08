@@ -44,12 +44,11 @@ int my_sokoban(map_t *map)
 {
     int key = 0;
     int direction[4];
-    int output = -1;
 
     if (map == NULL)
         return (84);
     init_curs_module();
-    while (key != 'q' && output < 0) {
+    while (key != 'q') {
         draw_map(map);
         key = getch();
         get_direction(key, direction);
@@ -58,5 +57,5 @@ int my_sokoban(map_t *map)
             reload_map(&map);
     }
     stop_curs_module();
-    return (free_map_and_returns(map, (output < 0) ? 0 : output));
+    return (free_map_and_returns(map, 0));
 }
