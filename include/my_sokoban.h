@@ -25,6 +25,7 @@ typedef struct vector
 typedef struct box
 {
     vector_t pos;
+    int movable;
 } box_t;
 
 typedef struct map
