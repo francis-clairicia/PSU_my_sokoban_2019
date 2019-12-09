@@ -19,6 +19,23 @@ static int print_help(void)
     return (0);
 }
 
+static void init_curs_module(void)
+{
+    initscr();
+    noecho();
+    cbreak();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    timeout(500);
+}
+
+static void stop_curs_module(void)
+{
+    clrtoeol();
+    refresh();
+    endwin();
+}
+
 static char *open_map(char const *filepath)
 {
     int fd = open(filepath, O_RDONLY);
@@ -47,7 +64,9 @@ int main(int ac, char **av)
     if (my_strcmp(av[1], "-h") == 0)
         return (print_help());
     buffer = open_map(av[1]);
+    init_curs_module();
     output = my_sokoban(get_map(buffer));
+    stop_curs_module();
     free(buffer);
     return (output);
 }

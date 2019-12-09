@@ -32,6 +32,7 @@ typedef struct map
 {
     char const *buffer;
     char **str;
+    int printable;
     vector_t player;
     box_t *boxes;
     int nb_boxes;

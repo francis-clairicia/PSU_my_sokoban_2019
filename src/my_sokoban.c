@@ -7,29 +7,17 @@
 
 #include "my_sokoban.h"
 
-static void init_curs_module(void)
+static void is_printable(map_t *map)
 {
-    initscr();
-    noecho();
-    cbreak();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-    timeout(500);
+    map->printable = ((LINES >= map->nb_lines) && (COLS >= map->max_nb_columns));
 }
 
-static void stop_curs_module(void)
+static void get_direction(int key, int *direction, int map_printable)
 {
-    clrtoeol();
-    refresh();
-    endwin();
-}
-
-static void get_direction(int key, int *direction)
-{
-    direction[0] = (key == KEY_UP);
-    direction[1] = (key == KEY_DOWN);
-    direction[2] = (key == KEY_LEFT);
-    direction[3] = (key == KEY_RIGHT);
+    direction[0] = (key == KEY_UP && map_printable);
+    direction[1] = (key == KEY_DOWN && map_printable);
+    direction[2] = (key == KEY_LEFT && map_printable);
+    direction[3] = (key == KEY_RIGHT && map_printable);
 }
 
 static void reload_map(map_t **map)
@@ -47,15 +35,14 @@ int my_sokoban(map_t *map)
 
     if (map == NULL)
         return (84);
-    init_curs_module();
     while (key != 'q') {
+        is_printable(map);
         draw_map(map);
         key = getch();
-        get_direction(key, direction);
+        get_direction(key, direction, map->printable);
         move_player(map, direction);
         if (key == ' ')
             reload_map(&map);
     }
-    stop_curs_module();
     return (free_map_and_returns(map, 0));
 }

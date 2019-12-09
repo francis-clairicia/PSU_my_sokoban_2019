@@ -39,6 +39,10 @@ void draw_map(map_t *map)
     int line = 0;
 
     clear();
+    if (!(map->printable)) {
+        mvprintw(0, 0, "Agrandis ce putain\nde terminal");
+        return;
+    }
     while (line < map->nb_lines) {
         mvprintw(coords.y + line, coords.x, map->str[line]);
         line += 1;

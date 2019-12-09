@@ -25,9 +25,9 @@ static void move_player_coords(map_t *map, vector_t move)
 {
     vector_t new_pos = {map->player.x + move.x, map->player.y + move.y};
 
-    if (new_pos.y >= map->nb_lines)
+    if (new_pos.y < 0 || new_pos.y >= map->nb_lines)
         return;
-    if (new_pos.x >= map->nb_columns[new_pos.y])
+    if (new_pos.x < 0 || new_pos.x >= map->nb_columns[new_pos.y])
         return;
     if (map->str[new_pos.y][new_pos.x] == '#')
         return;
