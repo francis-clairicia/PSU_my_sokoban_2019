@@ -18,7 +18,8 @@ SRC_TEST	=	src/get_map.c			\
 				src/find_boxes.c		\
 				src/char_is_box.c		\
 				src/find_hole.c			\
-				src/move_player.c
+				src/move_player.c		\
+				src/check_game_status.c
 
 SRC			=	$(SRC_NO_TEST) $(SRC_TEST)
 

@@ -7,6 +7,22 @@
 
 #include "my_sokoban.h"
 
+static void check_box_movable(map_t *map, int index_box)
+{
+    int x = map->boxes[index_box].pos.x;
+    int y = map->boxes[index_box].pos.y;
+    char left = map->str[y][x - 1];
+    char right = map->str[y][x + 1];
+    char top = map->str[y - 1][x];
+    char bottom = map->str[y + 1][x];
+
+    if ((my_find_char("#X", left) >= 0
+    && (my_find_char("#X", top) >= 0 || my_find_char("#X", bottom) >= 0))
+    || (my_find_char("#X", right) >= 0
+    && (my_find_char("#X", top) >= 0 || my_find_char("#X", bottom) >= 0)))
+        map->boxes[index_box].movable = FALSE;
+}
+
 static int move_box(map_t *map, int index_box, vector_t move)
 {
     vector_t new_pos;
@@ -15,9 +31,11 @@ static int move_box(map_t *map, int index_box, vector_t move)
         return (1);
     new_pos.x = map->boxes[index_box].pos.x + move.x;
     new_pos.y = map->boxes[index_box].pos.y + move.y;
-    if (map->str[new_pos.y][new_pos.x] == '#' || char_is_box(map, new_pos) >= 0)
+    if (map->str[new_pos.y][new_pos.x] == '#'
+    || char_is_box(map, new_pos) >= 0)
         return (0);
     map->boxes[index_box].pos = new_pos;
+    check_box_movable(map, index_box);
     return (1);
 }
 

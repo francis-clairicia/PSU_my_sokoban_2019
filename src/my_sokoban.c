@@ -32,17 +32,19 @@ int my_sokoban(map_t *map)
 {
     int key = 0;
     int direction[4];
+    int output = -1;
 
     if (map == NULL)
         return (84);
-    while (key != 'q') {
+    while (key != 'q' && output < 0) {
         is_printable(map);
         draw_map(map);
+        output = check_game_status(map);
         key = getch();
         get_direction(key, direction, map->printable);
         move_player(map, direction);
         if (key == ' ')
             reload_map(&map);
     }
-    return (free_map_and_returns(map, 0));
+    return (free_map_and_returns(map, (output < 0) ? 0 : output));
 }
