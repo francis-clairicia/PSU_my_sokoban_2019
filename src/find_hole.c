@@ -24,5 +24,5 @@ int find_hole(map_t *map)
     }
     if (count == 0)
         return (0);
-    return (count == map->nb_boxes);
+    return (count >= map->nb_boxes);
 }
