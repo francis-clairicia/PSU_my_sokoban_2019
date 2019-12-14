@@ -9,7 +9,10 @@
 
 static void is_printable(map_t *map)
 {
-    map->printable = ((LINES >= map->nb_lines) && (COLS >= map->max_nb_columns));
+    int nb_lines = map->nb_lines;
+    int nb_columns = map->max_nb_columns;
+
+    map->printable = ((LINES >= nb_lines) && (COLS >= nb_columns));
 }
 
 static void get_direction(int key, int *direction, int map_printable)
