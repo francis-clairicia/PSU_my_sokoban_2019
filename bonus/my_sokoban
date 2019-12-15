@@ -1,0 +1,36 @@
+#! /bin/python3
+# -*- coding: Utf-8 -*
+##
+## EPITECH PROJECT, 2019
+## PSU_my_sokoban_2019
+## File description:
+## my_sokoban
+##
+
+import sys
+import os
+import curses
+import argparse
+from menu import Menu
+
+def get_args():
+    description = "Welcome to the Sokoban game"
+    parser = argparse.ArgumentParser(description=description)
+    return parser.parse_args()
+
+def main(stdscr):
+    if not curses.has_colors():
+        sys.exit(84)
+    curses.start_color()
+    curses.use_default_colors()
+    curses.noecho()
+    curses.cbreak()
+    curses.curs_set(False)
+    stdscr.keypad(True)
+    stdscr.timeout(50)
+    Menu(stdscr).run()
+
+if __name__ == "__main__":
+    get_args()
+    curses.wrapper(main)
+    sys.exit(0)
